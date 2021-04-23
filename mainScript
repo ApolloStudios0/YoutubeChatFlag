@@ -1,0 +1,40 @@
+import pytchat
+from gtts import gTTS
+import os
+
+def cls(): # Clears console log
+    os.system('cls' if os.name=='nt' else 'clear')
+
+video_id = input("Enter your video ID [EG: bmVKaAV_7-A] : ") # Grabs video ID
+printChat = input("Please enter your keyword to flag : ").lower()
+printNames = input("Do you want to say their names [1. Yes / 2. No] : ")
+
+if printNames == "1":
+    printNames = True
+else:
+    printNames = False
+
+chat = pytchat.create(video_id=video_id)
+
+def pullChat(): # Main function for pulling chat (Pytchat)
+
+    cls()
+
+    while chat.is_alive(): # Pull
+        for c in chat.get().sync_items():
+            print(f"[{c.author.name}] - {c.message}".lower()) # Message Author and Content
+
+            if printNames == True:
+                if printChat in c.message: # Text to speech engine
+                    language = 'en'
+                    myobj = gTTS(text=c.author.name+'said'+c.message, lang=language, slow=False)
+                    myobj.save("flaggedSpeech.mp3")
+                    os.system("flaggedSpeech.mp3")
+            elif printNames == False:
+                if printChat in c.message: # Text to speech engine
+                    language = 'en'
+                    myobj = gTTS(text=c.message, lang=language, slow=False)
+                    myobj.save("flaggedSpeech.mp3")
+                    os.system("flaggedSpeech.mp3")
+
+pullChat() # Call
