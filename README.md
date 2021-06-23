@@ -1,4 +1,4 @@
-# YoutubeChatFlagger
+# Youtube Chat Scraper
 
 Scrapes Youtube live chat and uses TTS to read custom keywords. *Also prints chat with 0 delay to the console window*
 
